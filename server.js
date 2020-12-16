@@ -58,6 +58,7 @@ app.get("/update", (req, res) => {
     res.render("update")
 });
 
+// when put a colon, value after is a url parameter
 app.post("/update/:userId", (req, res) => {
 
     const name = req.body.userName;
@@ -75,6 +76,31 @@ app.post("/update/:userId", (req, res) => {
             res.send("there was an error")
         } else {
             res.send("user has been updated.")
+        }
+    });
+});
+
+app.get("/delete", (req, res) => {
+    res.render("deleteUser")
+});
+
+// when put a colon, value after is a url parameter
+app.post("/delete/:userId", (req, res) => {
+    const id = req.params.userId;
+
+    console.log(id)
+
+    let sql = 'DELETE FROM users WHERE id = ?';
+    let user  = [id];
+
+    //  do a query to delete any blog posts where userId = id
+    // then we can delete from the users table, without a foreign key constraint
+
+    db.query(sql, user, (error, results) => {
+        if (error) {
+            res.send("There was an error deleting the user");
+        } else {
+            res.send("User has been deleted");
         }
     });
 });
